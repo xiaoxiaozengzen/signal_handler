@@ -89,14 +89,14 @@ bool SignalHandler::uninstall()
     teardown_wait_for_signal();
   } catch (...) {
     installed_.exchange(true);
-    throw;
+    throw std::runtime_error(
+      "SignalHandler::uninstall(): exception while uninstalling signal handler");
   }
   RCLCPP_DEBUG(get_logger(), "signal handler uninstalled");
   return true;
 }
 
-bool
-SignalHandler::is_installed()
+bool SignalHandler::is_installed()
 {
   return installed_.load();
 }
